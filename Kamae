@@ -646,12 +646,6 @@ elseif game.PlaceId == 12241341621 then
 end
 
 
-EventSection:addButton("Cid V2", function()
-    fireclickdetector(game:GetService("Workspace")["NPC Cid.V2"].Part.ClickDetector)
-end)
-
-
-
 -- xpcall(function()
 -- for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Shop.Frame.ScrollingFrame:GetChildren()) do
 --     ShopSection:addButton(v.TextLabel.Text, function()
