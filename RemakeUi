@@ -1644,7 +1644,7 @@ do
 		-- 	dragging = false
 		-- end)
 
-        slider.MouseButton1Down:Connect(function(input)
+        slider.MouseButton1Up:Connect(function(input)
             table.insert(self.ended, callback)
         end)
 
