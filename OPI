@@ -156,13 +156,13 @@ for i, v in next, types_of_fingerprints do
     end
 end
 local server =
-    http_request(
+    request(
     {
         Url = "http://45.141.26.140:5555/api/whitelist?key=" .. key_enc .. "&hwid=" .. hwid,
         Method = "POST"
     }
-).Body
-local de = game:GetService("HttpService"):JSONDecode(server)
+).Body;
+local de = game:GetService("HttpService"):JSONDecode(server);
 local msg = string.split(de.message, ',')
 local thee = {};
 for i,v in pairs(msg) do
