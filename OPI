@@ -163,6 +163,7 @@ local server =
     }
 ).Body
 local de = game:GetService("HttpService"):JSONDecode(server)
+print(de)
 local msg = string.split(de.message, ',')
 local thee = {};
 for i,v in pairs(msg) do
