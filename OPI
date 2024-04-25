@@ -156,7 +156,7 @@ for i, v in next, types_of_fingerprints do
     end
 end
 local server =
-    request(
+    http_request(
     {
         Url = "http://45.141.26.140:5555/api/whitelist?key=" .. key_enc .. "&hwid=" .. hwid,
         Method = "POST"
