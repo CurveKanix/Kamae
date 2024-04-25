@@ -141,7 +141,7 @@ function kick(x)
     while true do
     end
 end
-
+print("uyhvhujvbjikbjkjkb")
 if shared.key == nil then
     kick(kick_prefix .. " " .. "ห้ามลบ shared.Key")
 end
