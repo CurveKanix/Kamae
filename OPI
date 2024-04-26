@@ -162,7 +162,7 @@ local server =
         Method = "POST"
     }
 ).Body;
-local de = game:GetService("HttpService"):JSONDecode(server);
+local de = game:GetService("HttpService"):JSONDecode(tostring(server));
 local msg = string.split(de.message, ',')
 local thee = {};
 for i,v in pairs(msg) do
