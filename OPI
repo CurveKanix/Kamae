@@ -162,7 +162,7 @@ local server =
         Method = "POST"
     }
 ).Body;
-print(server, shared.key)
+print(key_enc .. hwid)
 local de = game:GetService("HttpService"):JSONDecode(tostring(server));
 local msg = string.split(de.message, ',')
 local thee = {};
