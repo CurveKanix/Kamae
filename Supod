@@ -1,6 +1,3 @@
-
-shared.FruitBattlegrounds = true;
-
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 local Players = game:GetService("Players");
 local GuiService = game:GetService("GuiService")
@@ -41,11 +38,8 @@ task.spawn(function()
     end
 end)
 
-while shared.FruitBattlegrounds do
+while task.wait() do
     pcall(function()
-        task.wait()
-
-        if PlayerGui:FindFirstChild("UI") and not PlayerGui.UI.HUD.Visible then return end;
         if PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale == 0.5 then
             repeat task.wait()
                 GuiService.SelectedCoreObject = PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play
