@@ -39,30 +39,54 @@ task.spawn(function()
     end
 end)
 
-while task.wait() do
-    pcall(function()
-        if PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale ~= -0.5 then
-            repeat task.wait()
-                GuiService.SelectedCoreObject = PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play
-                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-            until PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale == -0.5
-        end
-        
-        if LocalPlayer.Character.Stats:GetAttribute("Stamina") <= 10 then LocalPlayer.Character.Humanoid.Health = 0 end;
+task.spawn(function()
+	while wait() do
+		repeat wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
+		local lp,po,ts = game:GetService('Players').LocalPlayer,game.CoreGui.RobloxPromptGui.promptOverlay,game:GetService('TeleportService')							
+		po.ChildAdded:connect(function(a)
+			if a.Name == 'ErrorPrompt' then
+				repeat
+					ts:Teleport(game.PlaceId)
+					wait(2)
+				until false
+			end
+		end)
+	end
+end)
 
-        if #FruitMoves == 0 then
-            for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-                if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-                    FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "");
+task.spawn(function()
+    while task.wait() do
+        pcall(function()
+            if PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale ~= -0.5 then
+                repeat task.wait()
+                    GuiService.SelectedCoreObject = PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play
+                    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+                    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+                until PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale == -0.5
+                GuiService.SelectedCoreObject = nil
+            end
+        end)
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        pcall(function()
+            if LocalPlayer.Character.Stats:GetAttribute("Stamina") <= 10 then LocalPlayer.Character.Humanoid.Health = 0 end;
+
+            if #FruitMoves == 0 then
+                for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                        FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "");
+                    end
+                end
+            else
+                for i,v in pairs(FruitMoves) do
+                    if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+                        ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {});
+                    end
                 end
             end
-        else
-            for i,v in pairs(FruitMoves) do
-                if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-                    ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {});
-                end
-            end
-        end
-    end)
-end;
+        end)
+    end;
+end)
