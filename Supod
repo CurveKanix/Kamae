@@ -1,0 +1,73 @@
+
+shared.FruitBattlegrounds = true;
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage");
+local Players = game:GetService("Players");
+local GuiService = game:GetService("GuiService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local LocalPlayer = Players.LocalPlayer;
+local PlayerGui = LocalPlayer.PlayerGui;
+
+local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value);
+
+local FruitMoves = {};
+
+local VirtualUser = game:GetService('VirtualUser')
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+    pcall(function()
+        VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        task.wait(1)
+        VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    end)
+end)
+
+queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
+
+LocalPlayer.OnTeleport:Connect(function(State)
+    queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/CurveKanix/Kamae/refs/heads/main/Supod'))()")
+end)
+
+task.spawn(function()
+    while task.wait() do
+        pcall(function()
+            if workspace.Characters.NPCs:FindFirstChild("Marco") then
+                LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Marco").HumanoidRootPart.CFrame
+                game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
+            else
+                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1317.05322, 696.182251, -985.855286, -0.608514786, 4.99603416e-08, -0.793542504, -1.55696291e-08, 1, 7.48979332e-08, 0.793542504, 5.79316612e-08, -0.608514786);  
+            end
+        end)
+    end
+end)
+
+while shared.FruitBattlegrounds do
+    pcall(function()
+        task.wait()
+
+        if PlayerGui:FindFirstChild("UI") and not PlayerGui.UI.HUD.Visible then return end;
+        if PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale == 0.5 then
+            repeat task.wait()
+                GuiService.SelectedCoreObject = PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play
+                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+            until PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale == -0.5
+        end
+        
+        if LocalPlayer.Character.Stats:GetAttribute("Stamina") <= 10 then LocalPlayer.Character.Humanoid.Health = 0 end;
+
+        if #FruitMoves == 0 then
+            for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+                if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                    FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "");
+                end
+            end
+        else
+            for i,v in pairs(FruitMoves) do
+                if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+                    ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {});
+                end
+            end
+        end
+    end)
+end;
