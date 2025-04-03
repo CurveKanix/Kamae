@@ -41,7 +41,7 @@ end)
 
 while task.wait() do
     pcall(function()
-        if PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale == 0.5 then
+        if PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale ~= -0.5 then
             repeat task.wait()
                 GuiService.SelectedCoreObject = PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play
                 VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
