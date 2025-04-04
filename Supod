@@ -1,4 +1,5 @@
 repeat task.wait() until game:IsLoaded()
+shared.Enables = true
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 local Players = game:GetService("Players");
 local GuiService = game:GetService("GuiService")
@@ -29,23 +30,25 @@ end)
 task.spawn(function()
     while task.wait() do
         pcall(function()
-            if workspace.Characters.NPCs:FindFirstChild("Marco") then
-                LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Marco").HumanoidRootPart.CFrame
-                game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
-            elseif workspace.Characters.NPCs:FindFirstChild("Katakuri") then
-                LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Katakuri").HumanoidRootPart.CFrame
-                game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
-            elseif workspace.Characters.NPCs:FindFirstChild("Cake Queen") then
-                LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Cake Queen").HumanoidRootPart.CFrame
-                game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
-            elseif workspace.Characters.NPCs:FindFirstChild("Kaido") then
-                LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Kaido").HumanoidRootPart.CFrame
-                game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
-            else
-                if game.PlaceId == 12413901502 then
-                    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-5327.55029, 854.623474, 314.083923, 0.585516572, 8.56991349e-08, -0.810660422, 1.79758916e-11, 1, 1.05728191e-07, 0.810660422, -6.19201828e-08, 0.585516572)  
+            if shared.Enables then
+                if workspace.Characters.NPCs:FindFirstChild("Marco") then
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Marco").HumanoidRootPart.CFrame
+                    game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
+                elseif workspace.Characters.NPCs:FindFirstChild("Katakuri") then
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Katakuri").HumanoidRootPart.CFrame
+                    game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
+                elseif workspace.Characters.NPCs:FindFirstChild("Cake Queen") then
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Cake Queen").HumanoidRootPart.CFrame
+                    game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
+                elseif workspace.Characters.NPCs:FindFirstChild("Kaido") then
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Kaido").HumanoidRootPart.CFrame
+                    game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
                 else
-                    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1317.05322, 696.182251, -985.855286, -0.608514786, 4.99603416e-08, -0.793542504, -1.55696291e-08, 1, 7.48979332e-08, 0.793542504, 5.79316612e-08, -0.608514786);  
+                    if game.PlaceId == 12413901502 then
+                        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-5327.55029, 854.623474, 314.083923, 0.585516572, 8.56991349e-08, -0.810660422, 1.79758916e-11, 1, 1.05728191e-07, 0.810660422, -6.19201828e-08, 0.585516572)  
+                    else
+                        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1317.05322, 696.182251, -985.855286, -0.608514786, 4.99603416e-08, -0.793542504, -1.55696291e-08, 1, 7.48979332e-08, 0.793542504, 5.79316612e-08, -0.608514786);  
+                    end
                 end
             end
         end)
@@ -70,56 +73,63 @@ end)
 task.spawn(function()
     while task.wait() do
         pcall(function()
-            if PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale ~= -0.5 then
-                repeat task.wait()
-                    GuiService.SelectedCoreObject = PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play
-                    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-                    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-                until PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale == -0.5
-                GuiService.SelectedCoreObject = nil
+            if shared.Enables then
+                if PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale ~= -0.5 then
+                    repeat task.wait()
+                        GuiService.SelectedCoreObject = PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play
+                        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+                        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+                    until PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale == -0.5
+                    GuiService.SelectedCoreObject = nil
+                end
             end
         end)
     end
 end)
-
 task.spawn(function()
     while task.wait() do
         pcall(function()
-            if LocalPlayer.Character.Stats:GetAttribute("Stamina") <= 10 then LocalPlayer.Character.Humanoid.Health = 0 end;
+            if shared.Enables then
+                MouseRay = {
+                    ["MouseRay"] = {
+                        ["Normal"] = Vector3.yAxis,
+                        ["Direction"] = LocalPlayer.Character.HumanoidRootPart.Position,
+                        ["Origin"] = LocalPlayer.Character.HumanoidRootPart.Position,
+                        ["Instance"] = nil,
+                        ["Distance"] = math.huge,
+                        ["Material"] = LocalPlayer.Character.Humanoid.FloorMaterial,
+                        ["Position"] = LocalPlayer.Character.HumanoidRootPart.Position
+                    }
+                }
 
-            if LocalPlayer.PlayerGui:FindFirstChild("Rage") then
-                if not LocalPlayer.Cooldowns:FindFirstChild("Transform") and (LocalPlayer.Character:GetAttribute("CustomRig") == nil or LocalPlayer.Character:GetAttribute("Form") == nil or LocalPlayer.Character:GetAttribute("CustomRig") == 0) then
-                    game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer(CurrentData.Name, "Transform", {})
+                if LocalPlayer.Character.Stats:GetAttribute("Stamina") <= 10 then LocalPlayer.Character.Humanoid.Health = 0 end;
+
+                if LocalPlayer.PlayerGui:FindFirstChild("Rage") then
+                    if not LocalPlayer.Cooldowns:FindFirstChild("Transform") and (LocalPlayer.Character:GetAttribute("CustomRig") == nil or LocalPlayer.Character:GetAttribute("Form") == nil or LocalPlayer.Character:GetAttribute("CustomRig") == 0) then
+                        game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer(CurrentData.Name, "Transform", {})
+                    end
                 end
-            end
 
-            for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-                if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-                    Moves = string.gsub(string.gsub(v.Name, "%s", ""), "%p", "")
-                    if not LocalPlayer.Cooldowns:FindFirstChild(Moves) then
-                        ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, Moves, {
-                            ["MouseRay"] = {
-                                ["Normal"] = Vector3.yAxis,
-                                ["Direction"] = LocalPlayer.Character.HumanoidRootPart.Position,
-                                ["Origin"] = LocalPlayer.Character.HumanoidRootPart.Position,
-                                ["Instance"] = nil,
-                                ["Distance"] = math.huge,
-                                ["Material"] = LocalPlayer.Character.Humanoid.FloorMaterial,
-                                ["Position"] = LocalPlayer.Character.HumanoidRootPart.Position
-                            }
-                        });
-
-                        ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, CurrentData.Name..Moves, {
-                            ["MouseRay"] = {
-                                ["Normal"] = Vector3.yAxis,
-                                ["Direction"] = LocalPlayer.Character.HumanoidRootPart.Position,
-                                ["Origin"] = LocalPlayer.Character.HumanoidRootPart.Position,
-                                ["Instance"] = nil,
-                                ["Distance"] = math.huge,
-                                ["Material"] = LocalPlayer.Character.Humanoid.FloorMaterial,
-                                ["Position"] = LocalPlayer.Character.HumanoidRootPart.Position
-                            }
-                        });
+                for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                        if v:GetAttribute("Name") then
+                            if not LocalPlayer.Cooldowns:FindFirstChild(v:GetAttribute("Name")) then
+                                ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, v:GetAttribute("Name"), MouseRay);
+                                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v:GetAttribute("Name"), MouseRay)
+                            end
+                        else
+                            Moves = string.gsub(string.gsub(v.Name, "%s", ""), "%p", "")
+                            if not LocalPlayer.Cooldowns:FindFirstChild(Moves) then
+                                ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, Moves, MouseRay);
+                                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, Moves, MouseRay)
+                            end
+                        end
+                        -- Moves = string.gsub(string.gsub(v.Name, "%s", ""), "%p", "")
+                        -- ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, v:GetAttribute("Name"), MouseRay);
+                        -- ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, Moves, MouseRay);
+                        -- ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, CurrentData.Name..Moves, MouseRay);
+                        -- ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v:GetAttribute("Name"), MouseRay)
+                        -- ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, CurrentData.Name..Moves, MouseRay)
                     end
                 end
             end
