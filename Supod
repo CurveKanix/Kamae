@@ -32,8 +32,21 @@ task.spawn(function()
             if workspace.Characters.NPCs:FindFirstChild("Marco") then
                 LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Marco").HumanoidRootPart.CFrame
                 game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
+            elseif workspace.Characters.NPCs:FindFirstChild("Katakuri") then
+                LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Katakuri").HumanoidRootPart.CFrame
+                game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
+            elseif workspace.Characters.NPCs:FindFirstChild("Cake Queen") then
+                LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Cake Queen").HumanoidRootPart.CFrame
+                game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
+            elseif workspace.Characters.NPCs:FindFirstChild("Kaido") then
+                LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Kaido").HumanoidRootPart.CFrame
+                game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
             else
-                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1317.05322, 696.182251, -985.855286, -0.608514786, 4.99603416e-08, -0.793542504, -1.55696291e-08, 1, 7.48979332e-08, 0.793542504, 5.79316612e-08, -0.608514786);  
+                if game.PlaceId == 12413901502 then
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-5327.55029, 854.623474, 314.083923, 0.585516572, 8.56991349e-08, -0.810660422, 1.79758916e-11, 1, 1.05728191e-07, 0.810660422, -6.19201828e-08, 0.585516572)  
+                else
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1317.05322, 696.182251, -985.855286, -0.608514786, 4.99603416e-08, -0.793542504, -1.55696291e-08, 1, 7.48979332e-08, 0.793542504, 5.79316612e-08, -0.608514786);  
+                end
             end
         end)
     end
