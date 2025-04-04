@@ -87,16 +87,39 @@ task.spawn(function()
         pcall(function()
             if LocalPlayer.Character.Stats:GetAttribute("Stamina") <= 10 then LocalPlayer.Character.Humanoid.Health = 0 end;
 
-            if #FruitMoves == 0 then
-                for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-                    if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-                        FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "");
-                    end
+            if LocalPlayer.PlayerGui:FindFirstChild("Rage") then
+                if not LocalPlayer.Cooldowns:FindFirstChild("Transform") and (LocalPlayer.Character:GetAttribute("CustomRig") == nil or LocalPlayer.Character:GetAttribute("Form") == nil or LocalPlayer.Character:GetAttribute("CustomRig") == 0) then
+                    game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer(CurrentData.Name, "Transform", {})
                 end
-            else
-                for i,v in pairs(FruitMoves) do
-                    if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-                        ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {});
+            end
+
+            for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+                if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                    Moves = string.gsub(string.gsub(v.Name, "%s", ""), "%p", "")
+                    if not LocalPlayer.Cooldowns:FindFirstChild(Moves) then
+                        ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, Moves, {
+                            ["MouseRay"] = {
+                                ["Normal"] = Vector3.yAxis,
+                                ["Direction"] = LocalPlayer.Character.HumanoidRootPart.Position,
+                                ["Origin"] = LocalPlayer.Character.HumanoidRootPart.Position,
+                                ["Instance"] = nil,
+                                ["Distance"] = math.huge,
+                                ["Material"] = LocalPlayer.Character.Humanoid.FloorMaterial,
+                                ["Position"] = LocalPlayer.Character.HumanoidRootPart.Position
+                            }
+                        });
+
+                        ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, CurrentData.Name..Moves, {
+                            ["MouseRay"] = {
+                                ["Normal"] = Vector3.yAxis,
+                                ["Direction"] = LocalPlayer.Character.HumanoidRootPart.Position,
+                                ["Origin"] = LocalPlayer.Character.HumanoidRootPart.Position,
+                                ["Instance"] = nil,
+                                ["Distance"] = math.huge,
+                                ["Material"] = LocalPlayer.Character.Humanoid.FloorMaterial,
+                                ["Position"] = LocalPlayer.Character.HumanoidRootPart.Position
+                            }
+                        });
                     end
                 end
             end
