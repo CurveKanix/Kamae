@@ -95,7 +95,7 @@ task.spawn(function()
                         ["Normal"] = Vector3.yAxis,
                         ["Direction"] = LocalPlayer.Character.HumanoidRootPart.Position,
                         ["Origin"] = LocalPlayer.Character.HumanoidRootPart.Position,
-                        ["Instance"] = nil,
+                        ["Instance"] = LocalPlayer.Character.HumanoidRootPart,
                         ["Distance"] = math.huge,
                         ["Material"] = LocalPlayer.Character.Humanoid.FloorMaterial,
                         ["Position"] = LocalPlayer.Character.HumanoidRootPart.Position
@@ -105,7 +105,16 @@ task.spawn(function()
                 if LocalPlayer.Character.Stats:GetAttribute("Stamina") <= 10 then LocalPlayer.Character.Humanoid.Health = 0 end;
 
                 if LocalPlayer.PlayerGui:FindFirstChild("Rage") then
-                    if not LocalPlayer.Cooldowns:FindFirstChild("Transform") and (LocalPlayer.Character:GetAttribute("CustomRig") == nil or LocalPlayer.Character:GetAttribute("Form") == nil or LocalPlayer.Character:GetAttribute("CustomRig") == 0) then
+                    Trans = false
+
+                    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                        if string.find(v.Name, CurrentData.Name) then
+                            Trans = true
+                        end
+                    end
+                    
+                    if not LocalPlayer.Cooldowns:FindFirstChild("Transform") and Trans == false then
+                    -- if not LocalPlayer.Cooldowns:FindFirstChild("Transform") and (LocalPlayer.Character:GetAttribute("CustomRig") == nil or LocalPlayer.Character:GetAttribute("Form") == nil or LocalPlayer.Character:GetAttribute("CustomRig") == 0) then
                         game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer(CurrentData.Name, "Transform", {})
                     end
                 end
@@ -116,12 +125,16 @@ task.spawn(function()
                             if not LocalPlayer.Cooldowns:FindFirstChild(v:GetAttribute("Name")) then
                                 ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, v:GetAttribute("Name"), MouseRay);
                                 ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v:GetAttribute("Name"), MouseRay)
+                                ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, CurrentData.Name..v:GetAttribute("Name"), MouseRay);
+                                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, CurrentData.Name..v:GetAttribute("Name"), MouseRay)
                             end
                         else
                             Moves = string.gsub(string.gsub(v.Name, "%s", ""), "%p", "")
                             if not LocalPlayer.Cooldowns:FindFirstChild(Moves) then
                                 ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, Moves, MouseRay);
                                 ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, Moves, MouseRay)
+                                ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, CurrentData.Name..Moves, MouseRay);
+                                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, CurrentData.Name..Moves, MouseRay)
                             end
                         end
                         -- Moves = string.gsub(string.gsub(v.Name, "%s", ""), "%p", "")
