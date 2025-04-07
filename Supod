@@ -1,5 +1,5 @@
 repeat task.wait() until game:IsLoaded()
-shared.Enables = true
+_G.Enables = true
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 local Players = game:GetService("Players");
 local GuiService = game:GetService("GuiService")
@@ -29,8 +29,8 @@ end)
 
 task.spawn(function()
     while task.wait() do
-        pcall(function()
-            if shared.Enables then
+        if _G.Enables then
+            pcall(function()
                 if workspace.Characters.NPCs:FindFirstChild("Marco") then
                     LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Characters.NPCs:FindFirstChild("Marco").HumanoidRootPart.CFrame
                     game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer("Core", "M1", {})
@@ -50,8 +50,8 @@ task.spawn(function()
                         LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1317.05322, 696.182251, -985.855286, -0.608514786, 4.99603416e-08, -0.793542504, -1.55696291e-08, 1, 7.48979332e-08, 0.793542504, 5.79316612e-08, -0.608514786);  
                     end
                 end
-            end
-        end)
+            end)
+        end
     end
 end)
 
@@ -72,8 +72,8 @@ end)
 
 task.spawn(function()
     while task.wait() do
-        pcall(function()
-            if shared.Enables then
+        if _G.Enables then 
+            pcall(function()
                 if PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale ~= -0.5 then
                     repeat task.wait()
                         GuiService.SelectedCoreObject = PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play
@@ -82,14 +82,14 @@ task.spawn(function()
                     until PlayerGui:FindFirstChild("UI").MainMenu.Buttons.Play.Position.X.Scale == -0.5
                     GuiService.SelectedCoreObject = nil
                 end
-            end
-        end)
+            end)
+        end
     end
 end)
 task.spawn(function()
-    while task.wait() do
-        pcall(function()
-            if shared.Enables then
+    while task.wait(.1) do
+        if _G.Enables then
+            pcall(function()
                 MouseRay = {
                     ["MouseRay"] = {
                         ["Normal"] = Vector3.yAxis,
@@ -104,7 +104,7 @@ task.spawn(function()
 
                 if LocalPlayer.Character.Stats:GetAttribute("Stamina") <= 10 then LocalPlayer.Character.Humanoid.Health = 0 end;
 
-                if LocalPlayer.PlayerGui:FindFirstChild("Rage") then
+                if LocalPlayer.PlayerGui:FindFirstChild("Rage") and workspace.Characters.Players:FindFirstChild(LocalPlayer.Name) then
                     Trans = false
 
                     for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
@@ -120,7 +120,7 @@ task.spawn(function()
                 end
 
                 for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-                    if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                    if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") and workspace.Characters.Players:FindFirstChild(LocalPlayer.Name) then
                         if v:GetAttribute("Name") then
                             if not LocalPlayer.Cooldowns:FindFirstChild(v:GetAttribute("Name")) then
                                 ReplicatedStorage.ReplicatorNoYield:FireServer(CurrentData.Name, v:GetAttribute("Name"), MouseRay);
@@ -145,7 +145,7 @@ task.spawn(function()
                         -- ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, CurrentData.Name..Moves, MouseRay)
                     end
                 end
-            end
-        end)
+            end)
+        end
     end;
 end)
